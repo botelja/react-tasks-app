@@ -3,7 +3,7 @@ import { Table, Input } from 'reactstrap';
 import EditTask from './EditTask';
 import { Link } from 'react-router-dom';
 
-const TaskTable = ({ tasks, editRow, updateTask }) => {
+const TaskTable = ({ tasks, editRow, updateTask, handleCheckdTask }) => {
   return (
     <Table>
       <thead>
@@ -38,7 +38,11 @@ const TaskTable = ({ tasks, editRow, updateTask }) => {
                   currentTask={task}
                   updateTask={updateTask}
                 />
-                <Input type="checkbox" />
+                <Input
+                  type="checkbox"
+                  checked={task.selected}
+                  onChange={(e) => handleCheckdTask(e, task)}
+                />
               </td>
             </tr>
           ))

@@ -15,7 +15,8 @@ const AddTask = ({ addTask }) => {
     id: null,
     name: '',
     description: '',
-    created: null
+    created: null,
+    selected: false
   };
 
   const [task, setTask] = useState(initialFormState);
@@ -33,7 +34,7 @@ const AddTask = ({ addTask }) => {
 
   return (
     <div>
-      <Button color="primary btn-block" onClick={toggle}>
+      <Button color="primary" className="mb-3" onClick={toggle}>
         Add Task
       </Button>
       <Modal isOpen={modal} toggle={toggle}>

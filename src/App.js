@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Delete from './component/Delete';
 import Paginator from './component/Paginator';
 import TaskTable from './component/TaskTable.jsx';
 import AddTask from './component/AddTask.jsx';
@@ -13,64 +14,80 @@ function App() {
       id: 1,
       name: 'First task',
       description: 'First description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 2,
       name: 'Second task',
       description: 'Second description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 3,
       name: 'Thrid task',
       description: 'Thrid description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 4,
       name: 'Four task',
       description: 'Four description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 5,
       name: 'Five task',
       description: 'Five description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 6,
       name: 'Six task',
       description: 'Six description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 7,
       name: 'Seven task',
       description: 'Seven description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 8,
       name: 'Eight task',
       description: 'Eight description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 9,
       name: 'Nine task',
       description: 'Nine description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     },
     {
       id: 10,
       name: 'Ten task',
       description: 'Ten description',
-      created: new Date().toISOString()
+      created: new Date().toISOString(),
+      selected: false
     }
   ];
-  const initialFormState = { id: null, name: '', username: '', created: null };
+  const initialFormState = {
+    id: null,
+    name: '',
+    username: '',
+    created: null,
+    selected: false
+  };
 
   const [tasks, setTasks] = useState(tasksData);
   const [currentTask, setCurrentTask] = useState(initialFormState);
@@ -88,6 +105,13 @@ function App() {
     setCurrentTask(updatedTask);
   };
 
+  const deleteTasks = () => {
+    let selectedTasks = [];
+
+    selectedTasks = tasks.filter((task) => task.selected === false);
+    setTasks(selectedTasks);
+  };
+
   const editRow = (task) => {
     setCurrentTask({
       id: task.id,
@@ -95,6 +119,18 @@ function App() {
       description: task.description,
       created: task.created
     });
+  };
+
+  const handleCheckdTask = (e, task) => {
+    let checked = e.target.checked;
+    setTasks(
+      tasks.map((t) => {
+        if (task.id === t.id) {
+          t.selected = checked;
+        }
+        return t;
+      })
+    );
   };
 
   //Pagination
@@ -113,11 +149,15 @@ function App() {
           path="/"
           render={(props) => (
             <div>
-              <AddTask addTask={addTask} {...props} />
+              <div className="d-flex">
+                <AddTask addTask={addTask} {...props} />
+                <Delete handleDelete={deleteTasks} />
+              </div>
               <TaskTable
                 tasks={currentTasks}
                 editRow={editRow}
                 updateTask={updateTask}
+                handleCheckdTask={handleCheckdTask}
                 {...props}
               />
               <Paginator
