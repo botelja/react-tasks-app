@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import Paginator from './component/Paginator';
 import TaskTable from './component/TaskTable.jsx';
 import AddTask from './component/AddTask.jsx';
 import Task from './component/Task';
@@ -73,6 +74,8 @@ function App() {
 
   const [tasks, setTasks] = useState(tasksData);
   const [currentTask, setCurrentTask] = useState(initialFormState);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [tasksPerPage] = useState(5);
 
   const addTask = (task) => {
     task.id = tasks.length + 1;
@@ -82,6 +85,7 @@ function App() {
 
   const updateTask = (id, updatedTask) => {
     setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
+    setCurrentTask(updatedTask);
   };
 
   const editRow = (task) => {
@@ -93,7 +97,12 @@ function App() {
     });
   };
 
-  console.log(currentTask);
+  //Pagination
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="container">
@@ -106,10 +115,15 @@ function App() {
             <div>
               <AddTask addTask={addTask} {...props} />
               <TaskTable
-                tasks={tasks}
+                tasks={currentTasks}
                 editRow={editRow}
                 updateTask={updateTask}
                 {...props}
+              />
+              <Paginator
+                tasksPerPage={tasksPerPage}
+                totalTasks={tasks.length}
+                paginate={paginate}
               />
             </div>
           )}

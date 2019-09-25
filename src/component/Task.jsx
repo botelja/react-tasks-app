@@ -4,11 +4,9 @@ import EditTask from './EditTask';
 
 const Task = ({ history, location, editRow, updateTask, currentTask }) => {
   const [task, setTask] = useState(location.state.task);
-  console.log(task);
+
   useEffect(() => {
-    if (currentTask.id === null) {
-      return;
-    } else {
+    if (currentTask.id !== null) {
       setTask(currentTask);
     }
   }, [currentTask]);
