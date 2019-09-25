@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import TaskTable from './component/TaskTable.jsx';
 import AddTask from './component/AddTask.jsx';
+import Task from './component/Task';
 
 import './App.css';
 
@@ -72,6 +74,16 @@ function App() {
   const [tasks, setTasks] = useState(tasksData);
   const [currentTask, setCurrentTask] = useState(initialFormState);
 
+  const addTask = (task) => {
+    task.id = tasks.length + 1;
+    task.created = new Date().toISOString();
+    setTasks([...tasks, task]);
+  };
+
+  const updateTask = (id, updatedTask) => {
+    setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
+  };
+
   const editRow = (task) => {
     setCurrentTask({
       id: task.id,
@@ -81,17 +93,40 @@ function App() {
     });
   };
 
-  const addTask = (task) => {
-    task.id = tasks.length + 1;
-    task.created = new Date().toISOString();
-    setTasks([...tasks, task]);
-  };
+  console.log(currentTask);
 
   return (
     <div className="container">
       <h1 className="text-center">Todo List App </h1>
-      <AddTask addTask={addTask} />
-      <TaskTable tasks={tasks} editRow={editRow} currentTask={currentTask} />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) => (
+            <div>
+              <AddTask addTask={addTask} {...props} />
+              <TaskTable
+                tasks={tasks}
+                editRow={editRow}
+                updateTask={updateTask}
+                {...props}
+              />
+            </div>
+          )}
+        />
+        <Route
+          exact
+          path="/task/:id"
+          render={(props) => (
+            <Task
+              editRow={editRow}
+              updateTask={updateTask}
+              currentTask={currentTask}
+              {...props}
+            />
+          )}
+        />
+      </Switch>
     </div>
   );
 }

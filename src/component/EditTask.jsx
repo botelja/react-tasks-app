@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Modal,
@@ -10,23 +10,27 @@ import {
   Input
 } from 'reactstrap';
 
-const EditTask = ({ currentTask, editRow }) => {
+const EditTask = ({ currentTask, editRow, updateTask }) => {
   const [task, setTask] = useState(currentTask);
   const [modal, setModal] = useState(false);
 
+  useEffect(() => {
+    setTask(currentTask);
+  }, [currentTask]);
+
   const toggle = () => {
     setModal(!modal);
+  };
+
+  const handleUpdate = (task) => {
+    editRow(task);
+    toggle();
   };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
 
     setTask({ ...task, [name]: value });
-  };
-
-  const handleUpdate = (task) => {
-    editRow(task);
-    toggle();
   };
 
   return (
@@ -40,8 +44,8 @@ const EditTask = ({ currentTask, editRow }) => {
           <Form
             onSubmit={(event) => {
               event.preventDefault();
-              if (!task.name || !task.description) return;
 
+              updateTask(task.id, task);
               toggle();
             }}
           >

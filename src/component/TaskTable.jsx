@@ -1,42 +1,55 @@
 import React from 'react';
-import { Table, Button, Input } from 'reactstrap';
+import { Table, Input } from 'reactstrap';
 import EditTask from './EditTask';
+import { Link } from 'react-router-dom';
 
-const TaskTable = ({ tasks, editRow, currentTask }) => (
-  <Table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Created</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {tasks.length > 0 ? (
-        tasks.map((task) => (
-          <tr key={task.id}>
-            <td>{task.id}</td>
-            <td>{task.name}</td>
-            <td>{task.description}</td>
-            <td>{task.created}</td>
-            <td className="d-flex">
-              <Button color="primary" className="btn-sm mr-2">
-                Open
-              </Button>
-              <EditTask editRow={editRow} currentTask={currentTask} />
-              <Input type="checkbox" className="" />
-            </td>
-          </tr>
-        ))
-      ) : (
+const TaskTable = ({ tasks, editRow, updateTask }) => {
+  return (
+    <Table>
+      <thead>
         <tr>
-          <td colSpan={5}>No tasks</td>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Created</th>
+          <th>Actions</th>
         </tr>
-      )}
-    </tbody>
-  </Table>
-);
+      </thead>
+      <tbody>
+        {tasks.length > 0 ? (
+          tasks.map((task) => (
+            <tr key={task.id}>
+              <td>{task.id}</td>
+              <td>{task.name}</td>
+              <td>{task.description}</td>
+              <td>{task.created}</td>
+              <td className="d-flex">
+                <Link
+                  to={{
+                    pathname: `/task/${task.id}`,
+                    state: { task }
+                  }}
+                  className="btn btn-primary btn-sm mr-2"
+                >
+                  Open
+                </Link>
+                <EditTask
+                  editRow={editRow}
+                  currentTask={task}
+                  updateTask={updateTask}
+                />
+                <Input type="checkbox" />
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5}>No tasks</td>
+          </tr>
+        )}
+      </tbody>
+    </Table>
+  );
+};
 
 export default TaskTable;
