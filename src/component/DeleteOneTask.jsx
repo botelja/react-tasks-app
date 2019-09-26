@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const DeleteOneTask = ({ deleteTask, currentTask, history }) => {
   const [modal, setModal] = useState(false);
@@ -32,6 +33,14 @@ const DeleteOneTask = ({ deleteTask, currentTask, history }) => {
       </Modal>
     </div>
   );
+};
+
+DeleteOneTask.propTypes = {
+  deleteTask: PropTypes.func.isRequired,
+  currentTask: PropTypes.object.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
 };
 
 export default withRouter(DeleteOneTask);

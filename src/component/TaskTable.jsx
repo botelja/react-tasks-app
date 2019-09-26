@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Input } from 'reactstrap';
 import EditTask from './EditTask';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const TaskTable = ({
   tasks,
@@ -71,6 +72,15 @@ const TaskTable = ({
       </tbody>
     </Table>
   );
+};
+
+TaskTable.propTypes = {
+  tasks: PropTypes.array.isRequired,
+  editRow: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired,
+  handleCheckdTask: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired,
+  sortColumn: PropTypes.object.isRequired
 };
 
 export default TaskTable;

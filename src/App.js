@@ -118,6 +118,7 @@ function App() {
 
   const deleteTask = (id) => {
     setTasks(tasks.filter((task) => task.id !== id));
+    setCurrentTask(initialFormState);
   };
 
   const editRow = (task) => {

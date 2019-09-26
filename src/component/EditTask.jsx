@@ -9,6 +9,7 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const EditTask = ({ currentTask, editRow, updateTask }) => {
   const [task, setTask] = useState(currentTask);
@@ -77,6 +78,12 @@ const EditTask = ({ currentTask, editRow, updateTask }) => {
       </Modal>
     </div>
   );
+};
+
+EditTask.propTypes = {
+  currentTask: PropTypes.object.isRequired,
+  editRow: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired
 };
 
 export default EditTask;

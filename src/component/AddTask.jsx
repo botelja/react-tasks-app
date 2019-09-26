@@ -9,6 +9,7 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const AddTask = ({ addTask }) => {
   const initialFormState = {
@@ -79,5 +80,7 @@ const AddTask = ({ addTask }) => {
     </div>
   );
 };
+
+AddTask.propTypes = { addTask: PropTypes.func.isRequired };
 
 export default AddTask;

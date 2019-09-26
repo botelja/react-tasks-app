@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const Delete = ({ handleDelete }) => {
   const [modal, setModal] = useState(false);
@@ -30,5 +31,7 @@ const Delete = ({ handleDelete }) => {
     </div>
   );
 };
+
+Delete.propTypes = { handleDelete: PropTypes.func.isRequired };
 
 export default Delete;

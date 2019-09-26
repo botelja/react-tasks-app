@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import PropTypes from 'prop-types';
 
 const Paginator = ({ tasksPerPage, totalTasks, paginate, currentPage }) => {
   const pageNumbers = [];
@@ -21,6 +22,13 @@ const Paginator = ({ tasksPerPage, totalTasks, paginate, currentPage }) => {
       ))}
     </Pagination>
   );
+};
+
+Paginator.propTypes = {
+  tasksPerPage: PropTypes.number.isRequired,
+  totalTasks: PropTypes.number.isRequired,
+  paginate: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired
 };
 
 export default Paginator;
