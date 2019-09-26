@@ -39,7 +39,7 @@ const EditTask = ({ currentTask, editRow, updateTask }) => {
         Edit
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Add task</ModalHeader>
+        <ModalHeader toggle={toggle}>Edit task</ModalHeader>
         <ModalBody>
           <Form
             onSubmit={(event) => {

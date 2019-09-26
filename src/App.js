@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Delete from './component/Delete';
 import Paginator from './component/Paginator';
 import TaskTable from './component/TaskTable.jsx';
 import AddTask from './component/AddTask.jsx';
 import Task from './component/Task';
+import { Input } from 'reactstrap';
+import _ from 'lodash';
 
 import './App.css';
 
@@ -93,6 +95,8 @@ function App() {
   const [currentTask, setCurrentTask] = useState(initialFormState);
   const [currentPage, setCurrentPage] = useState(1);
   const [tasksPerPage] = useState(5);
+  const [searchTask, setSearchTask] = useState('');
+  const [sortColumn, setSortColumn] = useState({ path: 'id', order: 'asc' });
 
   const addTask = (task) => {
     task.id = tasks.length + 1;
@@ -110,6 +114,10 @@ function App() {
 
     selectedTasks = tasks.filter((task) => task.selected === false);
     setTasks(selectedTasks);
+  };
+
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   const editRow = (task) => {
@@ -133,11 +141,40 @@ function App() {
     );
   };
 
+  const handleSearch = (e) => {
+    setSearchTask(e.target.value);
+  };
+
+  const handleSort = (sortColumn) => {
+    setSortColumn(sortColumn);
+  };
+
+  // Searching
+  let filteredTasks = tasks;
+  if (searchTask.length > 0) {
+    filteredTasks = filteredTasks.filter((task) => {
+      return (
+        task.id.toString().includes(searchTask) ||
+        task.name.toLowerCase().includes(searchTask.toLowerCase()) ||
+        task.description.toLowerCase().includes(searchTask.toLowerCase()) ||
+        task.created.toLowerCase().includes(searchTask.toLowerCase())
+      );
+    });
+  } else {
+    filteredTasks = tasks;
+  }
+
+  //Sorting
+  const sorted = _.orderBy(
+    filteredTasks,
+    [sortColumn.path],
+    [sortColumn.order]
+  );
+
   //Pagination
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
-
+  const currentTasks = sorted.slice(indexOfFirstTask, indexOfLastTask);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
@@ -153,16 +190,28 @@ function App() {
                 <AddTask addTask={addTask} {...props} />
                 <Delete handleDelete={deleteTasks} />
               </div>
+              <Input
+                type="text"
+                name="search"
+                id="search"
+                value={searchTask}
+                placeholder="Search"
+                className="mb-4"
+                onChange={(e) => handleSearch(e)}
+              />
               <TaskTable
                 tasks={currentTasks}
                 editRow={editRow}
                 updateTask={updateTask}
                 handleCheckdTask={handleCheckdTask}
+                onSort={handleSort}
+                sortColumn={sortColumn}
                 {...props}
               />
               <Paginator
                 tasksPerPage={tasksPerPage}
                 totalTasks={tasks.length}
+                currentPage={currentPage}
                 paginate={paginate}
               />
             </div>
@@ -176,6 +225,7 @@ function App() {
               editRow={editRow}
               updateTask={updateTask}
               currentTask={currentTask}
+              deleteTask={deleteTask}
               {...props}
             />
           )}

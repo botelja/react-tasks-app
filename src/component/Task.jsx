@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input } from 'reactstrap';
+import { Table } from 'reactstrap';
 import EditTask from './EditTask';
+import DeleteOneTask from './DeleteOneTask';
 
-const Task = ({ history, location, editRow, updateTask, currentTask }) => {
+const Task = ({
+  history,
+  location,
+  editRow,
+  updateTask,
+  currentTask,
+  deleteTask
+}) => {
   const [task, setTask] = useState(location.state.task);
 
   useEffect(() => {
@@ -35,7 +43,7 @@ const Task = ({ history, location, editRow, updateTask, currentTask }) => {
                 currentTask={task}
                 updateTask={updateTask}
               />
-              <Input type="checkbox" />
+              <DeleteOneTask deleteTask={deleteTask} currentTask={task} />
             </td>
           </tr>
         </tbody>
