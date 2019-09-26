@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 const DeleteOneTask = ({ deleteTask, currentTask, history }) => {
   const [modal, setModal] = useState(false);
   const [task] = useState(currentTask);
-  console.log(task);
+
   const toggle = () => {
     setModal(!modal);
   };
