@@ -94,7 +94,7 @@ function App() {
   const [tasks, setTasks] = useState(tasksData);
   const [currentTask, setCurrentTask] = useState(initialFormState);
   const [currentPage, setCurrentPage] = useState(1);
-  const [tasksPerPage] = useState(10);
+  const [tasksPerPage] = useState(5);
   const [searchTask, setSearchTask] = useState('');
   const [sortColumn, setSortColumn] = useState({ path: 'id', order: 'asc' });
   
