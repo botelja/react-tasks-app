@@ -20,7 +20,7 @@ const Delete = ({ handleDelete }) => {
         Delete
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Add task</ModalHeader>
+        <ModalHeader toggle={toggle}>Delete task</ModalHeader>
         <ModalBody>Are you sure you want to delete this records?</ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={deleteTasks}>

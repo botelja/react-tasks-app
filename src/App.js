@@ -86,7 +86,7 @@ function App() {
   const initialFormState = {
     id: null,
     name: '',
-    username: '',
+    description: '',
     created: null,
     selected: false
   };
@@ -94,10 +94,10 @@ function App() {
   const [tasks, setTasks] = useState(tasksData);
   const [currentTask, setCurrentTask] = useState(initialFormState);
   const [currentPage, setCurrentPage] = useState(1);
-  const [tasksPerPage] = useState(5);
+  const [tasksPerPage] = useState(10);
   const [searchTask, setSearchTask] = useState('');
   const [sortColumn, setSortColumn] = useState({ path: 'id', order: 'asc' });
-
+  
   const addTask = (task) => {
     task.id = tasks.length + 1;
     task.created = new Date().toISOString();
