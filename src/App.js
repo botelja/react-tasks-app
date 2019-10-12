@@ -97,7 +97,7 @@ function App() {
   const [tasksPerPage] = useState(5);
   const [searchTask, setSearchTask] = useState('');
   const [sortColumn, setSortColumn] = useState({ path: 'id', order: 'asc' });
-  
+
   const addTask = (task) => {
     task.id = tasks.length + 1;
     task.created = new Date().toISOString();
@@ -151,7 +151,7 @@ function App() {
   };
 
   // Searching
-  let filteredTasks = tasks;
+  let filteredTasks = [...tasks];
   if (searchTask.length > 0) {
     filteredTasks = filteredTasks.filter((task) => {
       return (
@@ -173,9 +173,7 @@ function App() {
   );
 
   //Pagination
-  const indexOfLastTask = currentPage * tasksPerPage;
-  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = sorted.slice(indexOfFirstTask, indexOfLastTask);
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
@@ -201,10 +199,12 @@ function App() {
                 onChange={(e) => handleSearch(e)}
               />
               <TaskTable
-                tasks={currentTasks}
+                tasks={sorted}
+                currentPage={currentPage}
+                tasksPerPage={tasksPerPage}
                 editRow={editRow}
                 updateTask={updateTask}
-                handleCheckdTask={handleCheckdTask}
+                onCheckdTask={handleCheckdTask}
                 onSort={handleSort}
                 sortColumn={sortColumn}
                 {...props}

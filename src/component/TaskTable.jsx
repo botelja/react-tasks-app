@@ -2,13 +2,16 @@ import React from 'react';
 import { Table, Input } from 'reactstrap';
 import EditTask from './EditTask';
 import { Link } from 'react-router-dom';
+import { paginator } from '../utils/paginate';
 import PropTypes from 'prop-types';
 
 const TaskTable = ({
   tasks,
+  currentPage,
+  tasksPerPage,
   editRow,
   updateTask,
-  handleCheckdTask,
+  onCheckdTask,
   onSort,
   sortColumn
 }) => {
@@ -22,6 +25,8 @@ const TaskTable = ({
     }
     onSort(sort);
   };
+
+  const currentTasks = paginator(tasks, currentPage, tasksPerPage);
   return (
     <Table>
       <thead>
@@ -35,7 +40,7 @@ const TaskTable = ({
       </thead>
       <tbody>
         {tasks.length > 0 ? (
-          tasks.map((task) => (
+          currentTasks.map((task) => (
             <tr key={task.id}>
               <td>{task.id}</td>
               <td>{task.name}</td>
@@ -59,7 +64,7 @@ const TaskTable = ({
                 <Input
                   type="checkbox"
                   checked={task.selected}
-                  onChange={(e) => handleCheckdTask(e, task)}
+                  onChange={(e) => onCheckdTask(e, task)}
                 />
               </td>
             </tr>
@@ -76,9 +81,11 @@ const TaskTable = ({
 
 TaskTable.propTypes = {
   tasks: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  tasksPerPage: PropTypes.number.isRequired,
   editRow: PropTypes.func.isRequired,
   updateTask: PropTypes.func.isRequired,
-  handleCheckdTask: PropTypes.func.isRequired,
+  onCheckdTask: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
   sortColumn: PropTypes.object.isRequired
 };
